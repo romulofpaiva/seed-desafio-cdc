@@ -32,7 +32,7 @@ public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Ob
 		boolean isValid = query.getResultList().isEmpty();
 
 		Assert.state(isValid,
-				"Já existe um " + domainClass.getSimpleName() + " cadastrado com " + domainAttribute + " igual à " + value + ".");
+				"Já existe um(a) " + domainClass.getSimpleName() + " cadastrado(a) com " + domainAttribute + " igual à " + value + ".");
 
 		return isValid;
 	}
