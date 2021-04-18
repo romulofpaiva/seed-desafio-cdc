@@ -4,11 +4,14 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.desafio.cdc.constraintvalidators.UniqueValue;
+
 public class AutorRequest {
 
 	@NotBlank(message = "Nome obrigatório")
 	private String nome;
 
+	@UniqueValue(domainClass = Autor.class, domainAttribute = "email")
 	@NotBlank(message = "Email obrigatório")
 	@Email(message = "Email em formato inválido")
 	private String email;
