@@ -1,4 +1,4 @@
-package com.desafio.cdc;
+package com.desafio.cdc.categoria;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
