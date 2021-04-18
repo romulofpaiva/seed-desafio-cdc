@@ -25,14 +25,15 @@ public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Ob
 
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
-		Query query = entityManager.createQuery("select 1 from " + domainClass.getName() + " where " + domainAttribute + " = ?1");
+		Query query = entityManager
+				.createQuery("select 1 from " + domainClass.getName() + " where " + domainAttribute + " = ?1");
 
 		query.setParameter(1, value);
 
 		boolean isValid = query.getResultList().isEmpty();
 
-		Assert.state(isValid,
-				"Já existe um(a) " + domainClass.getSimpleName() + " cadastrado(a) com " + domainAttribute + " igual à " + value + ".");
+		Assert.state(isValid, "Já existe um(a) " + domainClass.getSimpleName() + " cadastrado(a) com " + domainAttribute
+				+ " igual à " + value + ".");
 
 		return isValid;
 	}
