@@ -15,7 +15,7 @@ public class Autor {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@NotBlank
 	private String nome;
@@ -29,6 +29,9 @@ public class Autor {
 
 	@NotNull
 	private Instant criadoEm;
+	
+	public Autor() {
+	}
 
 	public Autor(@NotBlank String nome, @NotBlank @Email String email, @NotBlank String descricao,
 			@NotBlank Instant criadoEm) {
@@ -39,11 +42,11 @@ public class Autor {
 		this.criadoEm = criadoEm;
 	}
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

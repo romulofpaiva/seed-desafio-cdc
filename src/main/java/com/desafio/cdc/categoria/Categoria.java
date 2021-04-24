@@ -15,6 +15,9 @@ public class Categoria {
 	
 	@NotBlank
 	private String nome;
+	
+	public Categoria() {
+	}
 
 	public Categoria(@NotBlank String nome) {
 		super();
