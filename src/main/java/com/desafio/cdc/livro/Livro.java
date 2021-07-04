@@ -55,6 +55,9 @@ public class Livro {
 	@NotNull
 	@ManyToOne
 	private Autor autor;
+	
+	public Livro() {
+	}
 
 	public Livro(@NotBlank String titulo, @NotBlank @Length(min = 1, max = 500) String resumo, @NotBlank String sumario,
 			@NotNull @Min(20) Double preco, @NotNull @Min(200) Integer numeroPaginas, @NotBlank String isbn,
@@ -153,6 +156,10 @@ public class Livro {
 
 	public void setAutor(Autor autor) {
 		this.autor = autor;
+	}
+	
+	public String toString() {
+		return "id: " + id + ", titulo: " + titulo;
 	}
 	
 	
