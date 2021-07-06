@@ -16,8 +16,10 @@ import org.springframework.util.Assert;
 
 import com.desafio.cdc.autor.Autor;
 import com.desafio.cdc.categoria.Categoria;
+import com.fasterxml.jackson.annotation.JsonFilter;
 
 @Entity
+@JsonFilter("filter")
 public class Livro {
 
 	@Id

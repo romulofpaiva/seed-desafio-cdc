@@ -1,9 +1,6 @@
 package com.desafio.cdc.livro;
 
-import java.io.IOException;
 import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,15 +10,18 @@ import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.desafio.cdc.livro.LivroController.LivroForList;
-import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 
 @RestController
 @RequestMapping("/livros")
@@ -32,7 +32,7 @@ public class LivroController {
 
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> criar(@Valid @RequestBody LivroRequest request) {
+	public Object criar(@Valid @RequestBody LivroRequest request) {
 		
 		Livro livro = request.toModel(entityManager);
 		entityManager.persist(livro);
@@ -43,38 +43,32 @@ public class LivroController {
 	}
 	
 	@GetMapping
-	public String listar() throws JsonParseException, IOException {
+	public Object listarLivros() throws JsonProcessingException {
+		
+		TypedQuery<Livro> typedQuery = entityManager.createQuery("SELECT l FROM Livro l", Livro.class);
+
+		FilterProvider filters = new SimpleFilterProvider()
+				.addFilter("filter", SimpleBeanPropertyFilter.filterOutAllExcept("id", "titulo"));
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
-		TypedQuery<Livro> typedQuery = entityManager.createQuery("SELECT l FROM Livro l", Livro.class);
-		
-		List<LivroForList> livros =  
-				typedQuery.getResultList()
-				.stream()
-				.map( l -> new LivroForList(l.getId(), l.getTitulo()) ).collect(Collectors.toList());
-				
-		return mapper.writeValueAsString(livros);
+		return mapper.writer(filters).writeValueAsString(typedQuery.getResultList());
 	}
-
-	class LivroForList {
-		Long id;
-		String titulo;
+	
+	@GetMapping("/{id}")
+	public Object listarUmLivro(@PathVariable Long id) throws JsonProcessingException {
 		
-		LivroForList() {
+		Livro livro = entityManager.find(Livro.class, id);
+		
+		if(livro == null) {
+			return ResponseEntity.notFound().build();
 		}
 		
-		LivroForList(Long id, String titulo) {
-			this.id = id;
-			this.titulo = titulo;
-		}
+		FilterProvider filters = new SimpleFilterProvider()
+				.addFilter("filter", SimpleBeanPropertyFilter.serializeAll());
 		
-		public Long getId() {
-			return id;
-		}
+		ObjectMapper mapper = new ObjectMapper();
 		
-		public String getTitulo() {
-			return titulo;
-		}
+		return mapper.writer(filters).writeValueAsString(livro);
 	}
 }
