@@ -1,10 +1,7 @@
 package com.desafio.cdc.pagamento;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
