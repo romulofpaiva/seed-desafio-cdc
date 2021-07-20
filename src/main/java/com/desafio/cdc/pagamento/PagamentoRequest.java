@@ -6,10 +6,7 @@ import javax.validation.constraints.NotNull;
 
 import com.desafio.cdc.constraintvalidators.CpfOrCnpj;
 import com.desafio.cdc.constraintvalidators.ExistsId;
-<<<<<<< HEAD
 import com.desafio.cdc.pais.Estado;
-=======
->>>>>>> 789f30e6a7abfb863bd5e6a0423d6c289f0759d0
 import com.desafio.cdc.pais.Pais;
 
 public class PagamentoRequest {
@@ -41,10 +38,7 @@ public class PagamentoRequest {
 	@ExistsId(domainClass = Pais.class, domainAttribute = "id")
 	private Long paisId;
 	
-<<<<<<< HEAD
 	@ExistsId(domainClass = Estado.class, domainAttribute = "id")
-=======
->>>>>>> 789f30e6a7abfb863bd5e6a0423d6c289f0759d0
 	private Long estadoId;
 	
 	@NotBlank
