@@ -28,7 +28,7 @@ public class AutorController {
 		Autor autor = new Autor(request.getNome(), request.getEmail(), request.getDescricao(), Instant.now());
 		entityManager.persist(autor);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(autor.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(autor.getId()).toUri();
 
 		return ResponseEntity.created(uri).build();
 	}

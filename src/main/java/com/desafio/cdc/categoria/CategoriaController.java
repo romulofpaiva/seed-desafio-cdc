@@ -27,7 +27,7 @@ public class CategoriaController {
 		Categoria categoria = new Categoria(request.getNome());
 		entityManager.persist(categoria);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(categoria.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(categoria.getId()).toUri();
 		
 		return ResponseEntity.created(uri).build();	
 	}

@@ -37,7 +37,7 @@ public class LivroController {
 		Livro livro = request.toModel(entityManager);
 		entityManager.persist(livro);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(livro.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(livro.getId()).toUri();
 		
 		return ResponseEntity.created(uri).build();
 	}
