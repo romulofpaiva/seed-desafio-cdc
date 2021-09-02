@@ -1,4 +1,4 @@
-package com.desafio.cdc.pagamento;
+package com.desafio.cdc.compra;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -10,31 +10,31 @@ import org.springframework.util.Assert;
 import com.desafio.cdc.livro.Livro;
 
 @Entity
-public class ItemPagamento {
+public class CompraItem {
 	
 	@EmbeddedId
-	private ItemPagamentoId id = new ItemPagamentoId();
+	private CompraItemId id = new CompraItemId();
 	
 	@NotNull
 	@Positive
 	private Integer quantidade;
 	
-	public ItemPagamento() {
+	public CompraItem() {
 	}
 
-	public ItemPagamento(@NotNull Pagamento pagamento, @NotNull Livro livro, @NotNull @Positive Integer quantidade) {
+	public CompraItem(@NotNull Compra compra, @NotNull Livro livro, @NotNull @Positive Integer quantidade) {
 		super();
-		this.id.setPagamento(pagamento);
+		this.id.setCompra(compra);
 		this.id.setLivro(livro);
 		this.quantidade = quantidade;
 
-		Assert.state(pagamento != null, "Pagamento é obrigatório!");
+		Assert.state(compra != null, "Compra é obrigatório!");
 		Assert.state(livro != null, "Livro é obrigatório!");
 		Assert.state(quantidade > 0, "Quantidade deve ser maior que zero!");
 	}
 
-	public Pagamento getPagamento() {
-		return this.id.getPagamento();
+	public Compra getCompra() {
+		return this.id.getCompra();
 	}
 
 	public Livro getLivro() {

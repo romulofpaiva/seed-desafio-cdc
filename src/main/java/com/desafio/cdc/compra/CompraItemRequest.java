@@ -1,4 +1,4 @@
-package com.desafio.cdc.pagamento;
+package com.desafio.cdc.compra;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.NotNull;
@@ -7,7 +7,7 @@ import javax.validation.constraints.Positive;
 import com.desafio.cdc.constraintvalidators.ExistsId;
 import com.desafio.cdc.livro.Livro;
 
-public class ItemPagamentoRequest {
+public class CompraItemRequest {
 	
 	@NotNull
 	@ExistsId(domainClass = Livro.class, domainAttribute = "id")
@@ -17,7 +17,7 @@ public class ItemPagamentoRequest {
 	@Positive
 	private Integer quantidade;
 	
-	public ItemPagamentoRequest() {
+	public CompraItemRequest() {
 	}
 
 	public Long getIdLivro() {
@@ -36,7 +36,7 @@ public class ItemPagamentoRequest {
 		this.quantidade = quantidade;
 	}
 	
-	public ItemPagamento toModel(EntityManager em, Pagamento pagamento) {
-		return new ItemPagamento(pagamento, em.find(Livro.class, this.idLivro), this.quantidade);
+	public CompraItem toModel(EntityManager em, Compra compra) {
+		return new CompraItem(compra, em.find(Livro.class, this.idLivro), this.quantidade);
 	}
 }

@@ -1,4 +1,4 @@
-package com.desafio.cdc.pagamento;
+package com.desafio.cdc.compra;
 
 import java.net.URI;
 import java.util.HashSet;
@@ -19,39 +19,39 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.desafio.cdc.pais.Estado;
 
 @RestController
-@RequestMapping("/pagamentos")
-public class PagamentoController {
+@RequestMapping("/compras")
+public class CompraController {
 	
 	@PersistenceContext
 	EntityManager em;
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> criar(@Valid @RequestBody PagamentoRequest request) {
+	public ResponseEntity<?> criar(@Valid @RequestBody CompraRequest request) {
 		request.validaTotal(em);
 		
 		if(!isEstadoValido(request.getPaisId(), request.getEstadoId())) {
 			return ResponseEntity.badRequest().body("Estado não cadastrado para o País informado.");
 		}
 		
-		Pagamento pagamento = request.toModel(em);
-		em.persist(pagamento);
+		Compra compra = request.toModel(em);
+		em.persist(compra);
 		
-		Set<ItemPagamento> itens = processaItemPagamento(request.getItens(), pagamento);
+		Set<CompraItem> itens = processaCompraItem(request.getItens(), compra);
 		
-		pagamento.getItens().addAll(itens);
+		compra.getItens().addAll(itens);
 
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(pagamento.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(compra.getId()).toUri();
 		
 		return ResponseEntity.created(uri).build();
 	}
 
 	@Transactional
-	private Set<ItemPagamento> processaItemPagamento(Set<ItemPagamentoRequest> itensRequest, Pagamento pagamento) {
-		Set<ItemPagamento> itensResponse = new HashSet<>();
+	private Set<CompraItem> processaCompraItem(Set<CompraItemRequest> itensRequest, Compra compra) {
+		Set<CompraItem> itensResponse = new HashSet<>();
 		
-		for( ItemPagamentoRequest item : itensRequest ) {
-			ItemPagamento ip = item.toModel(em, pagamento);
+		for( CompraItemRequest item : itensRequest ) {
+			CompraItem ip = item.toModel(em, compra);
 			em.persist(ip);
 			itensResponse.add(ip);
 		}
@@ -67,7 +67,7 @@ public class PagamentoController {
 		}
 		
 		// Valida se o Estado pertence ao País informado.
-		// O PagamentoRequest já valida a existência do Estado.
+		// A CompraRequest já valida a existência do Estado.
 		Estado estado = em.find(Estado.class, estadoId);
 		
 		return estado.getPais().getId() == paisId;

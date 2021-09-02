@@ -1,4 +1,4 @@
-package com.desafio.cdc.pagamento;
+package com.desafio.cdc.compra;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,29 +11,29 @@ import javax.validation.constraints.NotNull;
 import com.desafio.cdc.livro.Livro;
 
 @Embeddable
-public class ItemPagamentoId implements Serializable {
+public class CompraItemId implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
 	@NotNull
 	@ManyToOne
-	@JoinColumn(name="pagamento_id")
-	private Pagamento pagamento;
+	@JoinColumn(name="compra_id")
+	private Compra compra;
 	
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name="livro_id")
 	private Livro livro;
 	
-	public ItemPagamentoId() {
+	public CompraItemId() {
 	}
 
-	public Pagamento getPagamento() {
-		return pagamento;
+	public Compra getCompra() {
+		return compra;
 	}
 
-	public void setPagamento(Pagamento pagamento) {
-		this.pagamento = pagamento;
+	public void setCompra(Compra compra) {
+		this.compra = compra;
 	}
 
 	public Livro getLivro() {
@@ -46,7 +46,7 @@ public class ItemPagamentoId implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(livro, pagamento);
+		return Objects.hash(livro, compra);
 	}
 
 	@Override
@@ -57,8 +57,8 @@ public class ItemPagamentoId implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ItemPagamentoId other = (ItemPagamentoId) obj;
-		return Objects.equals(livro, other.livro) && Objects.equals(pagamento, other.pagamento);
+		CompraItemId other = (CompraItemId) obj;
+		return Objects.equals(livro, other.livro) && Objects.equals(compra, other.compra);
 	}
 
 }
