@@ -26,6 +26,9 @@ public class Cupom {
 	@Future
 	private LocalDate validade;
 
+	public Cupom() {
+	}
+	
 	public Cupom(@NotBlank String codigo, @NotNull @Positive Double percentual, @NotNull @Future LocalDate validade) {
 		super();
 		this.codigo = codigo;
@@ -55,6 +58,10 @@ public class Cupom {
 
 	public void setValidade(LocalDate validade) {
 		this.validade = validade;
+	}
+
+	public boolean isValid() {
+		return validade.isAfter(LocalDate.now());
 	}
 
 }

@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -68,6 +69,8 @@ public class Compra {
 	@Positive
 	private BigDecimal total;
 	
+	private String cupom;
+	
 	@NotNull
 	@OneToMany(mappedBy = "id.compra")
 	private Set<CompraItem> itens = new HashSet<>();
@@ -78,7 +81,7 @@ public class Compra {
 	public Compra(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
 			@NotBlank String cidade, @NotNull Pais pais, Estado estado, @NotBlank String telefone, @NotBlank String cep,
-			@NotNull @Positive BigDecimal total) {
+			@NotNull @Positive BigDecimal total, String cupom) {
 		super();
 		this.email = email;
 		this.nome = nome;
@@ -92,6 +95,7 @@ public class Compra {
 		this.telefone = telefone;
 		this.cep = cep;
 		this.total = total;
+		this.cupom = cupom;
 		this.itens.addAll(itens);
 		
 		Assert.state(pais != null, "País não informado!");
@@ -199,6 +203,14 @@ public class Compra {
 
 	public void setTotal(BigDecimal total) {
 		this.total = total;
+	}
+
+	public String getCupom() {
+		return cupom;
+	}
+
+	public void setCupom(String cupom) {
+		this.cupom = cupom;
 	}
 
 	public Set<CompraItem> getItens() {
