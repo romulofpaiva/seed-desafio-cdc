@@ -23,55 +23,55 @@ import com.desafio.cdc.pais.Estado;
 import com.desafio.cdc.pais.Pais;
 
 public class CompraRequest {
-	
+
 	@NotBlank
 	@Email
 	private String email;
-	
+
 	@NotBlank
 	private String nome;
-	
+
 	@NotBlank
 	private String sobrenome;
-	
+
 	@NotBlank
 	@CpfOrCnpj
 	private String documento;
-	
+
 	@NotBlank
 	private String endereco;
-	
+
 	@NotBlank
 	private String complemento;
-	
+
 	@NotBlank
 	private String cidade;
-	
+
 	@NotNull
 	@ExistsId(domainClass = Pais.class, domainAttribute = "id")
 	private Long paisId;
-	
+
 	@ExistsId(domainClass = Estado.class, domainAttribute = "id")
 	private Long estadoId;
-	
+
 	@NotBlank
 	private String telefone;
-	
+
 	@NotBlank
 	private String cep;
-	
+
 	@NotNull
 	@Positive
 	private BigDecimal total;
-	
+
 	@ExistsId(domainClass = Cupom.class, domainAttribute = "codigo")
 	private String cupom;
-	
+
 	@Valid
 	@NotNull
 	@Size(min = 1)
 	private Set<CompraItemRequest> itens = new HashSet<>();
-	
+
 	public CompraRequest() {
 	}
 
@@ -186,39 +186,53 @@ public class CompraRequest {
 	public void setItens(Set<CompraItemRequest> itens) {
 		this.itens = itens;
 	}
-	
+
 	public void validaTotal(EntityManager em) {
 		BigDecimal totalCalculado = new BigDecimal(0.00);
-		
+
 		for (CompraItemRequest item : itens) {
 			Livro livro = em.find(Livro.class, item.getIdLivro());
 			totalCalculado = totalCalculado.add(BigDecimal.valueOf(item.getQuantidade() * livro.getPreco()));
 		}
-		
-		if(this.total.compareTo(totalCalculado) != 0) {
-			throw new IllegalArgumentException("O valor total informado (" + this.total +") é diferente do valor total calculado (" + totalCalculado + ") da compra.");
+
+		if (this.total.compareTo(totalCalculado) != 0) {
+			throw new IllegalArgumentException("O valor total informado (" + this.total
+					+ ") é diferente do valor total calculado (" + totalCalculado + ") da compra.");
 		}
 	}
 
 	public Compra toModel(EntityManager em) {
-		if(StringUtils.hasText(this.cupom)) {
-			Query query = em.createQuery("SELECT c FROM " + Compra.class.getName() + " c WHERE cupom = ?1");
-			query.setParameter(1, this.cupom);
-			
-			if(!query.getResultList().isEmpty())
-			{
+
+		Pais pais = em.find(Pais.class, this.paisId);
+
+		Compra novaCompra = new Compra(this.email, this.nome, this.sobrenome, this.documento, this.endereco,
+				this.complemento, this.cidade, pais, this.telefone, this.cep, this.total);
+
+		if (StringUtils.hasText(this.cupom)) {
+			Query queryCupom = em.createQuery("SELECT c FROM Cupom c WHERE codigo = ?1", Cupom.class);
+			queryCupom.setParameter(1, cupom);
+
+			Cupom cupomDesconto = (Cupom) queryCupom.getResultList().get(0);
+
+			Query queryCompra = em.createQuery("SELECT c FROM " + Compra.class.getName() + " c WHERE cupom_id = ?1");
+			queryCompra.setParameter(1, cupomDesconto.getId());
+
+			if (!queryCompra.getResultList().isEmpty()) {
 				throw new IllegalArgumentException("Cupom já utilizado.");
 			}
-			
-			Cupom ecupom = em.find(Cupom.class, this.cupom);
-			if(ecupom != null && !ecupom.isValid() ) {
-				throw new IllegalArgumentException("Cupom vencido.");
+
+			if (cupomDesconto != null) {
+				novaCompra.aplicaCupom(cupomDesconto);
 			}
 		}
-		
-		return new Compra(this.email, this.nome, this.sobrenome, this.documento,
-				this.endereco, this.complemento, this.cidade, em.find(Pais.class, this.paisId),
-				this.estadoId == null ? null : em.find(Estado.class, this.estadoId), this.telefone, this.cep,
-				this.total, this.cupom);
+
+		if (this.estadoId != null) {
+			Estado estado = em.find(Estado.class, this.estadoId);
+			if (estado != null) {
+				novaCompra.setEstado(estado);
+			}
+		}
+
+		return novaCompra;
 	}
 }

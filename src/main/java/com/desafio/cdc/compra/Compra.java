@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -19,6 +18,7 @@ import javax.validation.constraints.Positive;
 import org.springframework.util.Assert;
 
 import com.desafio.cdc.constraintvalidators.CpfOrCnpj;
+import com.desafio.cdc.cupom.Cupom;
 import com.desafio.cdc.pais.Estado;
 import com.desafio.cdc.pais.Pais;
 
@@ -68,8 +68,9 @@ public class Compra {
 	@NotNull
 	@Positive
 	private BigDecimal total;
-	
-	private String cupom;
+
+	@ManyToOne
+	private Cupom cupom;
 	
 	@NotNull
 	@OneToMany(mappedBy = "id.compra")
@@ -80,8 +81,8 @@ public class Compra {
 
 	public Compra(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
-			@NotBlank String cidade, @NotNull Pais pais, Estado estado, @NotBlank String telefone, @NotBlank String cep,
-			@NotNull @Positive BigDecimal total, String cupom) {
+			@NotBlank String cidade, @NotNull Pais pais, @NotBlank String telefone, @NotBlank String cep,
+			@NotNull @Positive BigDecimal total) {
 		super();
 		this.email = email;
 		this.nome = nome;
@@ -91,11 +92,9 @@ public class Compra {
 		this.complemento = complemento;
 		this.cidade = cidade;
 		this.pais = pais;
-		this.estado = estado;
 		this.telefone = telefone;
 		this.cep = cep;
 		this.total = total;
-		this.cupom = cupom;
 		this.itens.addAll(itens);
 		
 		Assert.state(pais != null, "País não informado!");
@@ -205,11 +204,15 @@ public class Compra {
 		this.total = total;
 	}
 
-	public String getCupom() {
+	public Cupom getCupom() {
 		return cupom;
 	}
 
-	public void setCupom(String cupom) {
+	public void aplicaCupom(Cupom cupom) {
+		Assert.isTrue(cupom.isValid(), "Cupom vencido.");
+		
+		Assert.isNull(this.cupom, "Cupom não pode ser alterado para um compra finalizada.");
+		
 		this.cupom = cupom;
 	}
 
