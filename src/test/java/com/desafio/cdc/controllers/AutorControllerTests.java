@@ -2,7 +2,6 @@ package com.desafio.cdc.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -10,7 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -38,8 +37,13 @@ public class AutorControllerTests {
 
 			@Test
 			void it_return_created() {
-				String body = "{\n" + "    \"nome\":\"Rômulo Ferreira Paiva\",\n"
-						+ "    \"email\":\"romulofpaiva@gmail.com\",\n" + "    \"descricao\":\"O autor...\"\n" + "}";
+				String body = """
+						{
+							"nome": "Rômulo Ferreira Paiva",
+							"email": "romulofpaiva@gmail.com",
+							"descricao": "O autor..."
+						}
+						""";
 
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_JSON);
@@ -58,8 +62,13 @@ public class AutorControllerTests {
 
 			@Test
 			void it_returns_bad_request() {
-				String body = "{\n" + "    \"nome\":\"Rômulo Ferreira Paiva\",\n"
-						+ "    \"email\":\"romulofpaiva@gmail.com\",\n" + "    \"descricao\":\"O autor...\"\n" + "}";
+				String body = """
+						{
+							"nome": "Rômulo Ferreira Paiva",
+							"email": "romulofpaiva@gmail.com",
+							"descricao": "O autor..."
+						}
+						""";
 
 				HttpHeaders headers = new HttpHeaders();
 				headers.setContentType(MediaType.APPLICATION_JSON);

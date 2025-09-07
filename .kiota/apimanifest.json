@@ -1,0 +1,59 @@
+{
+  "applicationName": "application",
+  "apiDependencies": {
+    "api-client-seed-desafio-cdc": {
+      "apiDescriptionUrl": "./openapi.yaml",
+      "apiDeploymentBaseUrl": "http://localhost:8080/",
+      "requests": [
+        {
+          "method": "POST",
+          "uriTemplate": "autores"
+        },
+        {
+          "method": "POST",
+          "uriTemplate": "categorias"
+        },
+        {
+          "method": "GET",
+          "uriTemplate": "livros/{id}"
+        },
+        {
+          "method": "POST",
+          "uriTemplate": "livros"
+        },
+        {
+          "method": "GET",
+          "uriTemplate": "livros"
+        },
+        {
+          "method": "POST",
+          "uriTemplate": "compras"
+        },
+        {
+          "method": "POST",
+          "uriTemplate": "paises"
+        },
+        {
+          "method": "GET",
+          "uriTemplate": "paises"
+        },
+        {
+          "method": "POST",
+          "uriTemplate": "estados"
+        },
+        {
+          "method": "GET",
+          "uriTemplate": "estados"
+        },
+        {
+          "method": "POST",
+          "uriTemplate": "cupons"
+        }
+      ],
+      "extensions": {
+        "x-ms-kiota-hash": "B13A790D2858F42B51B99CCC3C230BDD61918CA740F826B44B78CE9FFBC1B421",
+        "x-ms-kiota-version": "1.28.0"
+      }
+    }
+  }
+}

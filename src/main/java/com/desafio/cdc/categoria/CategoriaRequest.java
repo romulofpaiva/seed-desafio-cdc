@@ -1,6 +1,6 @@
 package com.desafio.cdc.categoria;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 import com.desafio.cdc.constraintvalidators.UniqueValue;
 

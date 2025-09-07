@@ -1,0 +1,408 @@
+openapi: 3.0.3
+info:
+  title: API Seed Desafio CDC
+  description: Documentação da API para o projeto Seed Desafio CDC.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Servidor de desenvolvimento local
+paths:
+  /autores:
+    post:
+      summary: Cadastrar um novo autor
+      description: Endpoint para cadastrar um novo autor no sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "João Silva"
+                email:
+                  type: string
+                  example: "joao.silva@email.com"
+                descricao:
+                  type: string
+                  example: "Autor de livros de ficção científica."
+      responses:
+        '201':
+          description: Autor cadastrado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  nome:
+                    type: string
+                    example: "João Silva"
+  /categorias:
+    post:
+      summary: Cadastrar uma nova categoria
+      description: Endpoint para cadastrar uma nova categoria no sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "Ficção Científica"
+      responses:
+        '201':
+          description: Categoria cadastrada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  nome:
+                    type: string
+                    example: "Ficção Científica"
+  /livros:
+    post:
+      summary: Cadastrar um novo livro
+      description: Endpoint para cadastrar um novo livro no sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titulo:
+                  type: string
+                  example: "O Guia do Mochileiro das Galáxias"
+                resumo:
+                  type: string
+                  example: "Um clássico da literatura de ficção científica."
+                sumario:
+                  type: string
+                  example: "Capítulo 1: Introdução ao universo..."
+                preco:
+                  type: number
+                  format: float
+                  example: 29.99
+                paginas:
+                  type: integer
+                  example: 224
+                isbn:
+                  type: string
+                  example: "978-3-16-148410-0"
+                dataPublicacao:
+                  type: string
+                  format: date
+                  example: "2023-12-01"
+                idCategoria:
+                  type: integer
+                  example: 1
+                idAutor:
+                  type: integer
+                  example: 1
+      responses:
+        '201':
+          description: Livro cadastrado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  titulo:
+                    type: string
+                    example: "O Guia do Mochileiro das Galáxias"
+    get:
+      summary: Listar todos os livros
+      description: Endpoint para listar todos os livros cadastrados no sistema.
+      responses:
+        '200':
+          description: Lista de livros retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Livro'
+  /livros/{id}:
+    get:
+      summary: Detalhar um livro
+      description: Endpoint para obter os detalhes de um livro específico.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID do livro a ser detalhado.
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Detalhes do livro retornados com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Livro'
+        '404':
+          description: Livro não encontrado
+  /compras:
+    post:
+      summary: Registrar uma nova compra
+      description: Endpoint para registrar uma nova compra no sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                idLivro:
+                  type: integer
+                  example: 1
+                quantidade:
+                  type: integer
+                  example: 2
+                emailCliente:
+                  type: string
+                  example: "cliente@email.com"
+      responses:
+        '201':
+          description: Compra registrada com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  idCompra:
+                    type: integer
+                    example: 1
+                  status:
+                    type: string
+                    example: "CONFIRMADA"
+  /paises:
+    post:
+      summary: Cadastrar um novo país
+      description: Endpoint para cadastrar um novo país no sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "Brasil"
+      responses:
+        '201':
+          description: País cadastrado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  nome:
+                    type: string
+                    example: "Brasil"
+    get:
+      summary: Listar todos os países
+      description: Endpoint para listar todos os países cadastrados no sistema.
+      responses:
+        '200':
+          description: Lista de países retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pais'
+  /estados:
+    post:
+      summary: Cadastrar um novo estado
+      description: Endpoint para cadastrar um novo estado no sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  example: "São Paulo"
+                idPais:
+                  type: integer
+                  example: 1
+      responses:
+        '201':
+          description: Estado cadastrado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  nome:
+                    type: string
+                    example: "São Paulo"
+                  idPais:
+                    type: integer
+                    example: 1
+    get:
+      summary: Listar todos os estados
+      description: Endpoint para listar todos os estados cadastrados no sistema.
+      responses:
+        '200':
+          description: Lista de estados retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Estado'
+  /cupons:
+    post:
+      summary: Cadastrar um novo cupom
+      description: Endpoint para cadastrar um novo cupom de desconto no sistema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                codigo:
+                  type: string
+                  example: "DESCONTO10"
+                desconto:
+                  type: number
+                  format: float
+                  example: 10.0
+                validade:
+                  type: string
+                  format: date
+                  example: "2023-12-31"
+      responses:
+        '201':
+          description: Cupom cadastrado com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  codigo:
+                    type: string
+                    example: "DESCONTO10"
+                  desconto:
+                    type: number
+                    format: float
+                    example: 10.0
+                  validade:
+                    type: string
+                    format: date
+                    example: "2023-12-31"
+components:
+  schemas:
+    Autor:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        descricao:
+          type: string
+    Categoria:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+    Livro:
+      type: object
+      properties:
+        id:
+          type: integer
+        titulo:
+          type: string
+        resumo:
+          type: string
+        sumario:
+          type: string
+        preco:
+          type: number
+          format: float
+        paginas:
+          type: integer
+        isbn:
+          type: string
+        dataPublicacao:
+          type: string
+          format: date
+        idCategoria:
+          type: integer
+        idAutor:
+          type: integer
+    Compra:
+      type: object
+      properties:
+        idCompra:
+          type: integer
+        idLivro:
+          type: integer
+        quantidade:
+          type: integer
+        emailCliente:
+          type: string
+        status:
+          type: string
+    Pais:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+    Estado:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        idPais:
+          type: integer
+    Cupom:
+      type: object
+      properties:
+        id:
+          type: integer
+        codigo:
+          type: string
+        desconto:
+          type: number
+          format: float
+        validade:
+          type: string
+          format: date

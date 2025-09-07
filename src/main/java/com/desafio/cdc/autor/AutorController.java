@@ -3,8 +3,8 @@ package com.desafio.cdc.autor;
 import java.net.URI;
 import java.time.Instant;
 
-import javax.persistence.EntityManager;
-import javax.validation.Valid;
+import jakarta.persistence.EntityManager;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

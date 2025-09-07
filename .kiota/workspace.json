@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "clients": {
+    "api-client-seed-desafio-cdc": {
+      "language": "Java",
+      "typeAccessModifier": "Public",
+      "structuredMimeTypes": [
+        "application/json",
+        "text/plain;q=0.9",
+        "application/x-www-form-urlencoded;q=0.2",
+        "multipart/form-data;q=0.1"
+      ],
+      "clientNamespaceName": "API Seed Desafio CDC",
+      "usesBackingStore": false,
+      "includeAdditionalData": true,
+      "excludeBackwardCompatible": false,
+      "disabledValidationRules": [],
+      "descriptionLocation": "./openapi.yaml",
+      "includePatterns": [
+        "/",
+        "/autores",
+        "/categorias",
+        "/compras",
+        "/cupons",
+        "/estados",
+        "/livros",
+        "/livros/{id}",
+        "/paises"
+      ],
+      "excludePatterns": [],
+      "outputPath": "./api-client-seed-desafio-cdc"
+    }
+  },
+  "plugins": {}
+}

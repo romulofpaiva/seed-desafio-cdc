@@ -1,8 +1,8 @@
 package com.desafio.cdc.compra;
 
-import javax.persistence.EntityManager;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import jakarta.persistence.EntityManager;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import com.desafio.cdc.constraintvalidators.ExistsId;
 import com.desafio.cdc.livro.Livro;

@@ -3,10 +3,10 @@ package com.desafio.cdc.compra;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Embeddable;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 
 import com.desafio.cdc.livro.Livro;
 

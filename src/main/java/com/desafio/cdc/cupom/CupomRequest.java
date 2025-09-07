@@ -2,10 +2,10 @@ package com.desafio.cdc.cupom;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.Future;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 import com.desafio.cdc.constraintvalidators.UniqueValue;
 import com.fasterxml.jackson.annotation.JsonFormat;
