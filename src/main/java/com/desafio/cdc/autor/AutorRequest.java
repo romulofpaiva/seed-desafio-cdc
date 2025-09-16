@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.time.Instant;
+
 import com.desafio.cdc.constraintvalidators.UniqueValue;
 
 public class AutorRequest {
@@ -51,6 +53,10 @@ public class AutorRequest {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public Autor toModel() {
+		return new Autor( getNome( ), getEmail(), getDescricao(), Instant.now( ) );
 	}
 
 }
